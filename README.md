@@ -26,7 +26,7 @@
 
 *Show your high level design, as done in WS1 and WS2. What are the critical components in your system? How do they communicate (I2C?, interrupts, ADC, etc.)? What power regulation do you need?*
 
-> At a high level, Neuro is composed of EEG sensors (ADS1299), a microcontroller, and wireless BLE communication to the cloud. The EEG sensor interfaces with the microcontroller using SPI protocol. The captured data is processed and transmitted via Bluetooth for storage and visualization in Medibound. The system is powered by a rechargeable Li-ion battery with voltage regulation circuitry to ensure consistent power delivery.
+> At a high level, Neuro is composed of EEG sensors, a microcontroller, and wireless BLE communication to the cloud. The EEG sensor interfaces with the microcontroller using SPI protocol. The captured data is processed and transmitted via Bluetooth for storage and visualization in Medibound. The system is powered by a rechargeable Li-ion battery with voltage regulation circuitry to ensure consistent power delivery.
 
 ![](block_diagram.png)
 
@@ -66,7 +66,7 @@ Here, you will define any special terms, acronyms, or abbreviations you plan to 
 
 *These must be testable! See the Final Project Manual Appendix for details. Refer to the table below; replace these examples with your own.*
 
-* The EEG sensor (ADS1299) must be able to read microvolt-level signals with <1 µV noise.
+* The EEG sensor must be able to read microvolt-level signals with <1 µV noise.
 * A 3-lead electrode cable will be used to collect forehead-based EEG signals.
 * A rechargeable battery with minimum 6-hour battery life is required.
 * A vibration motor and LED will serve as optional feedback/alert mechanisms.
@@ -81,14 +81,14 @@ Here, you will define any special terms, acronyms, or abbreviations you plan to 
 
 **6.2 Functionality Combined Software & Hardware**
 
-| ID       | Description                                                                                                                                                                                                                                                |
-| -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| NEURO-01 | The EEG sensor (ADS1299) must continuously sample brain activity at 250 Hz with a 16-bit resolution. The system will collect this data every 4 milliseconds, processing and transmitting it via Bluetooth Low Energy (BLE) for visualization in real-time. |
-| NEURO-02 | The system must transmit collected EEG data to the Medibound platform at least once every 5 seconds for real-time monitoring by caregivers.                                                                                                                |
-| NEURO-03 | Upon detecting abnormal brain activity (defined as seizure-like waveforms or stress indicators), the device will trigger an alert within 3 seconds to notify caregivers via the Medibound platform or connected application.                               |
-| NEURO-04 | Upon a request from the user, the system shall visualize a 10-second rolling EEG graph in the Medibound app, with live updates displaying the most recent EEG data.                                                                                        |
-| NEURO-05 | When no brain activity is detected for more than 5 minutes, the device shall enter low-power mode and automatically wake up upon detecting signal changes.                                                                                                 |
-| NEURO-06 | The system must provide haptic or visual feedback when abnormal activity is detected, offering immediate cues to the user or caregiver.                                                                                                                    |
+| ID       | Description                                                                                                                                                                                                                                       |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| NEURO-01 | The EEG sensor must continuously sample brain activity at 250 Hz with a 16-bit resolution. The system will collect this data every 4 milliseconds, processing and transmitting it via Bluetooth Low Energy (BLE) for visualization in real-time. |
+| NEURO-02 | The system must transmit collected EEG data to the Medibound platform at least once every 5 seconds for real-time monitoring by caregivers.                                                                                                       |
+| NEURO-03 | Upon detecting abnormal brain activity (defined as seizure-like waveforms or stress indicators), the device will trigger an alert within 3 seconds to notify caregivers via the Medibound platform or connected application.                      |
+| NEURO-04 | Upon a request from the user, the system shall visualize a 10-second rolling EEG graph in the Medibound app, with live updates displaying the most recent EEG data.                                                                               |
+| NEURO-05 | When no brain activity is detected for more than 5 minutes, the device shall enter low-power mode and automatically wake up upon detecting signal changes.                                                                                        |
+| NEURO-06 | The system must provide haptic or visual feedback when abnormal activity is detected, offering immediate cues to the user or caregiver.                                                                                                           |
 
 ### 7. Bill of Materials (BOM)
 
