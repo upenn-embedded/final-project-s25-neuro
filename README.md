@@ -89,7 +89,7 @@ Here, you will define any special terms, acronyms, or abbreviations you plan to 
 
 *In addition to this written response, copy the Final Project BOM Google Sheet and fill it out with your critical components (think: processors, sensors, actuators). Include the link to your BOM in this section.*
 
-> We will use the Bitalino EEG sensor, 3-lead electrode cable, and UC-E6 cable. These are compatible with Arduino and offer sufficient resolution and flexibility for our signal needs. Other components include a BLE-capable microcontroller (e.g., ESP32), a rechargeable battery pack, a vibration motor for alerts, and materials for casing (3D printed PLA). The complete BOM spreadsheet can be found here: [insert link]
+> We will use the Bitalino EEG sensor, 3-lead electrode cable, and UC-E6 cable. These are compatible with Arduino and offer sufficient resolution and flexibility for our signal needs. Other components include a BLE-capable microcontroller (e.g., ESP32), a rechargeable battery pack, a vibration motor for alerts, and materials for casing (3D printed PLA). The complete BOM spreadsheet can be found [here](https://docs.google.com/spreadsheets/d/1D1r-qtnwWtG0i4U08g_JSRCN8SvMN2fPsdjjQd8AklY/edit?usp=sharing).
 
 ### 8. Final Demo Goals
 
