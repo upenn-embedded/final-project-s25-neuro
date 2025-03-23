@@ -34,6 +34,9 @@
 
 *What will your project look like? Do you have any critical design features? Will you need any special manufacturing techniques to achieve your vision, like power tools, laser cutting, or 3D printing?*
 
+The device will look like a lightweight, adjustable headband that fits comfortably across the user’s forehead and temples. It includes embedded EEG sensors positioned strategically on contact points. The electronics are housed in a flexible casing at the rear of the band. A design priority is minimal intrusion and comfort for continuous use. We will use 3D printing to produce ergonomic casings for the electronics and laser cutting for internal frame support. LCD display will go on the back.
+
+![img](nueroband.png)
 
 ### 5. Software Requirements Specification (SRS)
 
@@ -55,14 +58,7 @@ Here, you will define any special terms, acronyms, or abbreviations you plan to 
 * BLE: Bluetooth Low Energy
 * SPI: Serial Peripheral Interface
 
-**5.2 Functionality**
-
-| ID     | Description                                                                                                                                                                                                              |
-| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| SRS-01 | The IMU 3-axis acceleration will be measured with 16-bit depth every 100 milliseconds +/-10 milliseconds                                                                                                                 |
-| SRS-02 | The distance sensor shall operate and report values at least every .5 seconds.                                                                                                                                           |
-| SRS-03 | Upon non-nominal distance detected (i.e., the trap mechanism has changed at least 10 cm from the nominal range), the system shall be able to detect the change and alert the user in a timely manner (within 5 seconds). |
-| SRS-04 | Upon a request from the user, the system shall get an image from the internal camera and upload the image to the user system within 10s.                                                                                 |
+**5.2 Functionality:** *Collectivized in 6.2*
 
 ### 6. Hardware Requirements Specification (HRS)
 
@@ -70,18 +66,29 @@ Here, you will define any special terms, acronyms, or abbreviations you plan to 
 
 *These must be testable! See the Final Project Manual Appendix for details. Refer to the table below; replace these examples with your own.*
 
+* The EEG sensor (ADS1299) must be able to read microvolt-level signals with <1 µV noise.
+* A 3-lead electrode cable will be used to collect forehead-based EEG signals.
+* A rechargeable battery with minimum 6-hour battery life is required.
+* A vibration motor and LED will serve as optional feedback/alert mechanisms.
+* The system should be housed in a wearable form factor weighing less than 200g (more than that is way too crazy heavy to be on your head - might adjust this later).
+
 **6.1 Definitions, Abbreviations**
 
 Here, you will define any special terms, acronyms, or abbreviations you plan to use for hardware
 
-**6.2 Functionality**
+* Bitalino EEG: Biomedical sensor used for EEG monitoring
+* UC-E6 Cable: Sensor cable for Arduino/Bitalino compatibility
 
-| ID     | Description                                                                                                                        |
-| ------ | ---------------------------------------------------------------------------------------------------------------------------------- |
-| HRS-01 | A distance sensor shall be used for obstacle detection. The sensor shall detect obstacles at a maximum distance of at least 10 cm. |
-| HRS-02 | A noisemaker shall be inside the trap with a strength of at least 55 dB.                                                           |
-| HRS-03 | An electronic motor shall be used to reset the trap remotely and have a torque of 40 Nm in order to reset the trap mechanism.      |
-| HRS-04 | A camera sensor shall be used to capture images of the trap interior. The resolution shall be at least 480p.                       |
+**6.2 Functionality Combined Software & Hardware**
+
+| ID       | Description                                                                                                                                                                                                                                                |
+| -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| NEURO-01 | The EEG sensor (ADS1299) must continuously sample brain activity at 250 Hz with a 16-bit resolution. The system will collect this data every 4 milliseconds, processing and transmitting it via Bluetooth Low Energy (BLE) for visualization in real-time. |
+| NEURO-02 | The system must transmit collected EEG data to the Medibound platform at least once every 5 seconds for real-time monitoring by caregivers.                                                                                                                |
+| NEURO-03 | Upon detecting abnormal brain activity (defined as seizure-like waveforms or stress indicators), the device will trigger an alert within 3 seconds to notify caregivers via the Medibound platform or connected application.                               |
+| NEURO-04 | Upon a request from the user, the system shall visualize a 10-second rolling EEG graph in the Medibound app, with live updates displaying the most recent EEG data.                                                                                        |
+| NEURO-05 | When no brain activity is detected for more than 5 minutes, the device shall enter low-power mode and automatically wake up upon detecting signal changes.                                                                                                 |
+| NEURO-06 | The system must provide haptic or visual feedback when abnormal activity is detected, offering immediate cues to the user or caregiver.                                                                                                                    |
 
 ### 7. Bill of Materials (BOM)
 
@@ -101,12 +108,12 @@ Here, you will define any special terms, acronyms, or abbreviations you plan to 
 
 *You've got limited time to get this project done! How will you plan your sprint milestones? How will you distribute the work within your team? Review the schedule in the final project manual for exact dates.*
 
-| Milestone  | Functionality Achieved | Distribution of Work |
-| ---------- | ---------------------- | -------------------- |
-| Sprint #1  |                        |                      |
-| Sprint #2  |                        |                      |
-| MVP Demo   |                        |                      |
-| Final Demo |                        |                      |
+| Milestone  | Functionality Achieved                                                                                                                                                                                                                                                                                                                                                                   | Distribution of Work                                                                                                                                                                                                                                                      |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Sprint #1  | Initial setup of the EEG sensor system (Bitalino EEG sensor) - If recieved.<br />Communication setup between the EEG sensor and microcontroller (ESP32).<br />Basic data collection from EEG sensor, sending data to the microcontroller via SPI.<br />Setup of Bluetooth Low Energy (BLE) communication for data transfer                                                               | Nick Harty: Setup and calibration of EEG sensor (Bitalino) and microcontroller (ESP32). Implement SPI communication between the components.<br />Sophia Fu: Work on BLE communication setup and initial data transmission to the cloud (Medibound integration)            |
+| Sprint #2  | Integration of EEG data with Medibound platform for real-time visualization.<br />Setup of alert system for abnormal brain patterns (e.g., stress or seizure-like patterns).<br />Power management implementation (battery usage, low-power mode).<br />Initial user interface (UI) prototype in the Medibound app for visualizing EEG data.                                             | Nick Harty: Work on integrating Medibound platform with real-time EEG data, implementing low-power mode.<br />Sophia Fu: Develop the alert system for abnormal brain activity and begin UI development for data visualization in Medibound.                               |
+| MVP Demo   | Fully functional EEG sensor system with real-time data transmission and visualization.<br />Basic alert system operational when abnormal brain activity is detected.<br />Demonstrate the device's ability to transmit data to Medibound and provide caregiver alerts.                                                                                                                   | Nick Harty: Finalize integration with Medibound, implement full BLE communication for data transfer, and ensure data visualization.<br />Sophia Fu: Complete the alert system and demonstrate it working with real-time data. Ensure the app is displaying live EEG data. |
+| Final Demo | Fully functional wearable EEG system with real-time brain activity monitoring.<br />Demonstrate full features including:<br />- Data transmission to Medibound<br />- Alerts triggered by abnormal brain patterns<br />- Haptic or LED feedback when abnormal activity is detected<br />- Display of EEG data on the Medibound app<br />Final device assembled in a wearable form factor | Nick Harty: Lead the final testing, finalize device assembly, ensure the device functions seamlessly with the cloud platform.<br />Sophia Fu: Polish the UI, conduct final tests for abnormal brain pattern detection, and ensure the alert system is fully functional.   |
 
 **This is the end of the Project Proposal section. The remaining sections will be filled out based on the milestone schedule.**
 
