@@ -28,7 +28,7 @@
 
 > At a high level, Neuro is composed of EEG sensors (ADS1299), a microcontroller, and wireless BLE communication to the cloud. The EEG sensor interfaces with the microcontroller using SPI protocol. The captured data is processed and transmitted via Bluetooth for storage and visualization in Medibound. The system is powered by a rechargeable Li-ion battery with voltage regulation circuitry to ensure consistent power delivery.
 
-[insert block diagram]
+![](block_diagram.png)
 
 ### 4. Design Sketches
 
