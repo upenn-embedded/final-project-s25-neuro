@@ -1,11 +1,12 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/WXeqVgks)
+
 # final-project-skeleton
 
 * Team Number:
-* Team Name:
-* Team Members:
-* GitHub Repository URL:
-* GitHub Pages Website URL: [for final submission]
+* Team Name: Neuro
+* Team Members: Nick Harty & Sophia Fu
+* GitHub Repository URL: https://github.com/upenn-embedded/final-project-s25-neuro
+* GitHub Pages Website URL: https://neuro.medibound.com
 
 ## Final Project Proposal
 
@@ -13,17 +14,26 @@
 
 *In a few sentences, describe your final project.*
 
+> Our final project is Neuro, a wearable headband embedded with EEG electrodes that monitor brain activity and detect abnormal patterns such as stress or early seizure indicators. The device integrates with Medibound to store, analyze, and visualize data in real time, allowing caregivers to monitor patient activity remotely and receive timely alerts.
+
 ### 2. Motivation
 
 *What is the problem that you are trying to solve? Why is this project interesting? What is the intended purpose?*
+
+> We aim to address the lack of accessible and continuous neurological monitoring tools for individuals prone to cognitive stress or seizure activity. This project is particularly compelling because it empowers patients and caregivers with real-time insights into brain health—outside of hospital settings—promoting preventative care and faster response. The ultimate purpose is to create a non-invasive, low-friction monitoring system that prioritizes health equity and tech-enabled accessibility.
 
 ### 3. System Block Diagram
 
 *Show your high level design, as done in WS1 and WS2. What are the critical components in your system? How do they communicate (I2C?, interrupts, ADC, etc.)? What power regulation do you need?*
 
+> At a high level, Neuro is composed of EEG sensors (ADS1299), a microcontroller, and wireless BLE communication to the cloud. The EEG sensor interfaces with the microcontroller using SPI protocol. The captured data is processed and transmitted via Bluetooth for storage and visualization in Medibound. The system is powered by a rechargeable Li-ion battery with voltage regulation circuitry to ensure consistent power delivery.
+
+[insert block diagram]
+
 ### 4. Design Sketches
 
 *What will your project look like? Do you have any critical design features? Will you need any special manufacturing techniques to achieve your vision, like power tools, laser cutting, or 3D printing?*
+
 
 ### 5. Software Requirements Specification (SRS)
 
@@ -31,9 +41,19 @@
 
 *These must be testable! See the Final Project Manual Appendix for details. Refer to the table below; replace these examples with your own.*
 
+* The EEG signal must be sampled at 250 Hz with a resolution of at least 16 bits.
+* BLE data transmission must occur at least once every 5 seconds for real-time updates.
+* Abnormal neural patterns (defined thresholds for stress or seizure-like waveforms) should trigger alerts within 3 seconds.
+* On user request, the system must be able to visualize a live 10-second rolling EEG graph in the Medibound app.
+* The device must enter low-power mode after 5 minutes of inactivity and automatically wake upon signal detection.
+
 **5.1 Definitions, Abbreviations**
 
 Here, you will define any special terms, acronyms, or abbreviations you plan to use for hardware
+
+* EEG: Electroencephalogram
+* BLE: Bluetooth Low Energy
+* SPI: Serial Peripheral Interface
 
 **5.2 Functionality**
 
@@ -69,9 +89,13 @@ Here, you will define any special terms, acronyms, or abbreviations you plan to 
 
 *In addition to this written response, copy the Final Project BOM Google Sheet and fill it out with your critical components (think: processors, sensors, actuators). Include the link to your BOM in this section.*
 
+> We will use the Bitalino EEG sensor, 3-lead electrode cable, and UC-E6 cable. These are compatible with Arduino and offer sufficient resolution and flexibility for our signal needs. Other components include a BLE-capable microcontroller (e.g., ESP32), a rechargeable battery pack, a vibration motor for alerts, and materials for casing (3D printed PLA). The complete BOM spreadsheet can be found here: [insert link]
+
 ### 8. Final Demo Goals
 
 *How will you demonstrate your device on demo day? Will it be strapped to a person, mounted on a bicycle, require outdoor space? Think of any physical, temporal, and other constraints that could affect your planning.*
+
+> For demo day, we will showcase the headband on a test subject (team member), measuring and displaying real-time EEG signals using Medibound’s visualization module. Simulated stress signals will be used to trigger alerts, and we will demonstrate feedback via vibration/LED output. This will be an indoor demo, requiring a laptop and Bluetooth-enabled phone.
 
 ### 9. Sprint Planning
 
