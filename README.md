@@ -121,9 +121,22 @@ Here, you will define any special terms, acronyms, or abbreviations you plan to 
 
 ### Last week's progress
 
+This week, we focused on planning and foundational work since our hardware components have not yet arrived. Specifically:
+
+* We defined the form factor and overall physical design of the Neuro headband.
+* Conducted research into EEG data formats, signal quality, and how to interface the Bitalino EEG sensor with the ESP32C2 microcontroller.
+* Began testing BLE communication between our mobile app (via Medibound) and the ESP32C2 board to ensure smooth data transmission once the sensor is integrated.
+
 ### Current state of project
 
+The software foundation for Bluetooth communication is in progress, and the physical design is being finalized in CAD. We’re prepared to move forward quickly once components arrive. Overall, the project is still in an early stage, but groundwork in both hardware and software integration is well underway.
+
 ### Next week's plan
+
+* Finalize and print the 3D-printed casing for the device based on our CAD designs.
+* Receive and begin testing with the Bitalino EEG sensor.
+* Establish SPI communication between the EEG sensor and the ESP32C2 microcontroller.
+* Complete BLE integration with live EEG data transmission to the Medibound app.
 
 ## Sprint Review #2
 
