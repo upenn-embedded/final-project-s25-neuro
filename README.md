@@ -126,6 +126,7 @@ This week, we focused on planning and foundational work since our hardware compo
 * We defined the form factor and overall physical design of the Neuro headband.
 * Conducted research into EEG data formats, signal quality, and how to interface the Bitalino EEG sensor with the ESP32C2 microcontroller.
 * Began testing BLE communication between our mobile app (via Medibound) and the ESP32C2 board to ensure smooth data transmission once the sensor is integrated.
+* [https://pub.dev/packages/medibound_integration/versions](https://pub.dev/packages/medibound_integration/versions)
 
 ### Current state of project
 
