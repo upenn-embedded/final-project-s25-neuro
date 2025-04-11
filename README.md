@@ -143,9 +143,21 @@ The software foundation for Bluetooth communication is in progress, and the phys
 
 ### Last week's progress
 
+This week, we focused on tasks that could be completed without the missing hardware components. Specifically:
+
+* Began CAD modeling for the project and submitted the designs to AddLab for 3D printing.
+* Ordered headbands from Amazon to use as the base for our wearable device.
+* Started coding the communication interface between the ATmega328P and the ESP32 microcontroller.
+
 ### Current state of project
 
+The CAD designs are finalized and sent for printing, and we are making progress on the software side by establishing communication between the microcontrollers. However, the lack of hardware components is still a bottleneck for testing and integration.
+
 ### Next week's plan
+
+* Receive and test the 3D-printed parts from AddLab to ensure they meet design specifications.
+* Continue developing and debugging the communication protocol between the ATmega328P and ESP32.
+* Begin integrating the headband with the 3D-printed casing and prepare for hardware assembly once the remaining components arrive.
 
 ## MVP Demo
 
