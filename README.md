@@ -153,6 +153,8 @@ This week, we focused on tasks that could be completed without the missing hardw
 
 The CAD designs are finalized and sent for printing, and we are making progress on the software side by establishing communication between the microcontrollers. However, the lack of hardware components is still a bottleneck for testing and integration.
 
+![Capture101.PNG](Capture101.PNG)
+
 ### Next week's plan
 
 * Receive and test the 3D-printed parts from AddLab to ensure they meet design specifications.
