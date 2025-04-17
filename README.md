@@ -164,18 +164,38 @@ The CAD designs are finalized and sent for printing, and we are making progress 
 ## MVP Demo
 
 1. Show a system block diagram & explain the hardware implementation.
+
+![](block_diagram.png)
+The block diagram is the same as in the original proposal except for the wireless communication. The communication between the 328p and the Esp32 is wired. We also moved to a Feather328p instead of the ATmega since the Feather is smaller and fits better for the headband application. The LCD display is connected to the 328p for real-time data visulaization. EEG electrodes in the forehead of headband and one behind ear will connect to the 328p to collect EEG data and send to Esp32 for further processing/filtering.
+
 2. Explain your firmware implementation, including application logic and critical drivers you've written.
+
+Without the electrodes, we were limited in what was achievable for the MVP demo. We worked on our output device (LCD) and getting a rolling graph of "captured" data. A looping variable was used in place of EEG data for testing purposes. This involved reusing the graphics library from Lab 3: Theremin and adding another wrapper to display a rolling EEG graph on the LCD.
+
 3. Demo your device.
 4. Have you achieved some or all of your Software Requirements Specification (SRS)?
 
+We achieved the software side of the data visualization outlined in our software requirements, includign the graph that will eventually display EEG data. We also achieved communication between the 328p and the XIAO esp32 board that will be used to transmit data via BLE for additional data processing.
+
    1. Show how you collected data and the outcomes.
+
 5. Have you achieved some or all of your Hardware Requirements Specification (HRS)?
+
+We achieved the LCD functionality and only need to replace the dummy data with true EEG data to complete the output LCD display hardware requirement. We have acquired the headband and 3D printed casing for the device for the final demo.
 
    1. Show how you collected data and the outcomes.
 6. Show off the remaining elements that will make your project whole: mechanical casework, supporting graphical user interface (GUI), web portal, etc.
+
+
+
 7. What is the riskiest part remaining of your project?
 
+The riskiest part is the performance of the EEG + electrodes. Neural data is highly sensitive to noise, so the data collection (sampling rate, electrode placement) must be ideal to collect the best possible data. Then, noise filtering will need to be robust enough to draw out meaningful trends.
+
    1. How do you plan to de-risk this?
+
+   We will need to get start as soon as possible on EEG data collection to get a sense of how much filtering is needed and ultimately what conclusion can possibly be drawn from the data. The more time we have with data collection, the more time we have to get creative and troubleshoot the inevitable issues we will face.
+
 8. What questions or help do you need from the teaching team?
 
 ## Final Project Report
