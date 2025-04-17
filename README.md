@@ -163,6 +163,8 @@ The CAD designs are finalized and sent for printing, and we are making progress 
 
 ## MVP Demo
 
+Slide deck: https://docs.google.com/presentation/d/1yxW2D6X8LX8IFezE28-wwVZU91Lz7AMj5VTxdckWhnw/edit#slide=id.g34d455e78b6_0_0
+
 1. Show a system block diagram & explain the hardware implementation.
 
 ![](block_diagram.png)
