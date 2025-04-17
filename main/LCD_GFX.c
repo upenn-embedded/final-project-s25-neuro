@@ -7,6 +7,7 @@
 
 #include "LCD_GFX.h"
 #include "ST7735.h"
+#include <stdlib.h>
 
 /******************************************************************************
 * Local Functions
@@ -110,20 +111,28 @@ void LCD_drawCircle(uint8_t x0, uint8_t y0, uint8_t radius, uint16_t color)
 * @brief		Draw a line from and to a point with a color
 * @note
 *****************************************************************************/
-void LCD_drawLine(short x0,short y0,short x1,short y1,uint16_t c)
-{
-	int dx = x1 - x0;
-    int dy = y1 - y0;
-    int D = 2*dy - dx;
-    int y = y0;
-    
-    for (int x = x0; x <= x1; x++) {
-        LCD_drawPixel(x, y, c);
-        if (D > 0) {
-            y++;
-            D -= 2*dx;
+void LCD_drawLine(short x0, short y0, short x1, short y1, uint16_t c) {
+    int dx = abs(x1 - x0);
+    int dy = abs(y1 - y0);
+    int sx = (x0 < x1) ? 1 : -1;  // Direction of the x-axis
+    int sy = (y0 < y1) ? 1 : -1;  // Direction of the y-axis
+    int err = dx - dy;            // Error term to determine when to adjust x or y
+
+    while (1) {
+        LCD_drawPixel(x0, y0, c);  // Draw the pixel at the current coordinates
+
+        // If the line has reached the end point, break the loop
+        if (x0 == x1 && y0 == y1) break;
+
+        int e2 = err * 2;  // Double the error term for comparison
+        if (e2 > -dy) {
+            err -= dy;  // Adjust the error and update x
+            x0 += sx;
         }
-        D += 2*dy;
+        if (e2 < dx) {
+            err += dx;  // Adjust the error and update y
+            y0 += sy;
+        }
     }
 }
 
