@@ -4,12 +4,12 @@
 * @brief       Basic display driver for Adafruit 358 1.8" TFT LCD with ST7735R chip
 *
 * @details     Basic display driver for Adafruit 358 1.8" TFT LCD with ST7735R chip
-*
+*              Modified for Adafruit Feather 328P
 *
 * @copyright
-* @author	   J. Ye
-* @date        April 19, 2021
-* @version		1.0
+* @author	   J. Ye (Modified for Feather 328P)
+* @date        April 17, 2025
+* @version	   1.1
 *****************************************************************************/
 
 #include <avr/io.h>
@@ -33,9 +33,9 @@ static void lcd_pin_init(void)
 	LCD_LITE_DDR |= (1<<LCD_LITE);	//Set up output pins
 
 	//Setup PWM for LCD Backlight
-	TCCR0A |= (1<<COM0A1)|(1<<WGM01)|(1<<WGM00);	//Fast PWM: clear OC0A on match, set at bottom
-	TCCR0B |= (1<<CS02);	//clk/1024/256=244Hz
-	OCR0A = 127;	//Set starting PWM value
+	TCCR2A |= (1<<COM2B1)|(1<<WGM21)|(1<<WGM20);	//Fast PWM: clear OC2B on match, set at bottom
+	TCCR2B |= (1<<CS22)|(1<<CS21)|(1<<CS20);	//clk/1024/256=61Hz
+	OCR2B = 127;	//Set starting PWM value
 
 	//Enable LCD by setting RST high
 	_delay_ms(50);
@@ -49,8 +49,8 @@ static void lcd_pin_init(void)
 *****************************************************************************/
 static void SPI_Controller_Init(void)
 {
-	SPCR0 = (1<<SPE) | (1<<MSTR);		//Enable SPI, Master, set clock rate fck/64
-	SPSR0 = (1<<SPI2X);										//SPI 2X speed
+	SPCR = (1<<SPE) | (1<<MSTR);		//Enable SPI, Master, set clock rate fck/64
+	SPSR = (1<<SPI2X);										//SPI 2X speed
 }
 
 
@@ -92,8 +92,8 @@ void SPI_ControllerTx(uint8_t data)
 *****************************************************************************/
 void SPI_ControllerTx_stream(uint8_t stream)
 {
-	SPDR0 = stream;		//Place data to be sent on registers
-	while(!(SPSR0 & (1<<SPIF)));	//wait for end of transmission
+	SPDR = stream;		//Place data to be sent on registers
+	while(!(SPSR & (1<<SPIF)));	//wait for end of transmission
 }
 
 /**************************************************************************//**
@@ -106,10 +106,10 @@ void SPI_ControllerTx_16bit(uint16_t data)
 	uint8_t temp = data >> 8;
 	clear(LCD_PORT, LCD_TFT_CS);	//CS pulled low to start communication
 	
-	SPDR0 = temp;		//Place data to be sent on registers
-	while(!(SPSR0 & (1<<SPIF)));	//wait for end of transmission
-	SPDR0 = data;		//Place data to be sent on registers
-	while(!(SPSR0 & (1<<SPIF)));	//wait for end of transmission
+	SPDR = temp;		//Place data to be sent on registers
+	while(!(SPSR & (1<<SPIF)));	//wait for end of transmission
+	SPDR = data;		//Place data to be sent on registers
+	while(!(SPSR & (1<<SPIF)));	//wait for end of transmission
 	
 	set(LCD_PORT, LCD_TFT_CS);	//set CS to high
 }
@@ -123,10 +123,10 @@ void SPI_ControllerTx_16bit_stream(uint16_t data)
 {
 	uint8_t temp = data >> 8;
 
-	SPDR0 = temp;		//Place data to be sent on registers
-	while(!(SPSR0 & (1<<SPIF)));	//wait for end of transmission
-	SPDR0 = data;		//Place data to be sent on registers
-	while(!(SPSR0 & (1<<SPIF)));	//wait for end of transmission
+	SPDR = temp;		//Place data to be sent on registers
+	while(!(SPSR & (1<<SPIF)));	//wait for end of transmission
+	SPDR = data;		//Place data to be sent on registers
+	while(!(SPSR & (1<<SPIF)));	//wait for end of transmission
 }
 
 /**************************************************************************//**
@@ -227,48 +227,4 @@ void LCD_setAddr(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1)
 	sendCommands(ST7735_cmds, 3);
 }
 
-/**************************************************************************//**
-* @fn			void LCD_brightness(uint8_t intensity)
-* @brief		Changes the intensity of the LCD screen (max = 255)
-* @note
-*****************************************************************************/
-void LCD_brightness(uint8_t intensity)
-{
-	OCR0A = intensity;	//Set PWM value
-}
-
-/**************************************************************************//**
-* @fn			void LCD_rotate(uint8_t r)
-* @brief		Rotate display to another orientation
-* @note
-*****************************************************************************/
-void LCD_rotate(uint8_t r)
-{
-	uint8_t madctl = 0;
-	uint8_t rotation = r % 4; // can't be higher than 3
-
-	switch (rotation) {
-		case 0:
-			madctl = MADCTL_MX | MADCTL_MY | MADCTL_RGB;
-			break;
-		case 1:
-			madctl = MADCTL_MY | MADCTL_MV | MADCTL_RGB;
-			break;
-		case 2:
-			madctl = MADCTL_RGB;
-			break;
-		case 3:
-			madctl = MADCTL_MX | MADCTL_MV | MADCTL_RGB;
-			break;
-		default:
-			madctl = MADCTL_MX | MADCTL_MY | MADCTL_RGB;
-			break;
-	}
-	
-	uint8_t ST7735_cmds[]  =
-	{
-		ST7735_MADCTL, 1, madctl, 0
-	};
-	
-	sendCommands(ST7735_cmds, 1);
-}
+/**************************************
