@@ -177,7 +177,7 @@ Without the electrodes, we were limited in what was achievable for the MVP demo.
 3. Demo your device.
 4. Have you achieved some or all of your Software Requirements Specification (SRS)?
 
-We achieved the software side of the data visualization outlined in our software requirements, includign the graph that will eventually display EEG data. We also achieved communication between the 328p and the XIAO esp32 board that will be used to transmit data via BLE for additional data processing. The Medibound frontend is also running with communication to the 
+We achieved the software side of the data visualization outlined in our software requirements, includign the graph that will eventually display EEG data. We also achieved communication between the 328p and the XIAO esp32 board that will be used to transmit data via BLE for additional data processing. The Medibound frontend is also running with communication to the Esp32
 
    1. Show how you collected data and the outcomes.
 
