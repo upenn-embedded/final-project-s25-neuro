@@ -179,6 +179,19 @@ Without the electrodes, we were limited in what was achievable for the MVP demo.
 ![](mvp1.png)
 ![](mvp2.png)
 
+
+https://github.com/user-attachments/assets/bd3027bc-4d2b-4b2c-937a-2614f699ae16
+
+
+
+https://github.com/user-attachments/assets/81c320ae-cd84-4225-9cf8-6236e00847fb
+
+
+https://github.com/user-attachments/assets/ef7f032e-4128-46b7-bb93-a53360f00cd4
+
+
+
+
 4. Have you achieved some or all of your Software Requirements Specification (SRS)?
 
 We achieved the software side of the data visualization outlined in our software requirements, includign the graph that will eventually display EEG data. We also achieved communication between the 328p and the XIAO esp32 board that will be used to transmit data via BLE for additional data processing. The Medibound frontend is also running with communication to the Esp32
