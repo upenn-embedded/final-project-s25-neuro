@@ -175,6 +175,10 @@ The block diagram is the same as in the original proposal except for the wireles
 Without the electrodes, we were limited in what was achievable for the MVP demo. We worked on our output device (LCD) and getting a rolling graph of "captured" data. A looping variable was used in place of EEG data for testing purposes. This involved reusing the graphics library from Lab 3: Theremin and adding another wrapper to display a rolling EEG graph on the LCD.
 
 3. Demo your device.
+
+![](mvp1.png)
+![](mvp2.png)
+
 4. Have you achieved some or all of your Software Requirements Specification (SRS)?
 
 We achieved the software side of the data visualization outlined in our software requirements, includign the graph that will eventually display EEG data. We also achieved communication between the 328p and the XIAO esp32 board that will be used to transmit data via BLE for additional data processing. The Medibound frontend is also running with communication to the Esp32
