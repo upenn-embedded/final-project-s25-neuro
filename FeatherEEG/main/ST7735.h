@@ -22,7 +22,7 @@
 #define LCD_PORT        PORTB
 #define LCD_DDR         DDRB
 #define LCD_DC          PORTB1      // D/C (Data/Command) connected to pin 9 (PB1)
-#define LCD_RST         PORTD7      // Reset connected to pin 6 (PD7)
+#define LCD_RST         PORTD6      // Reset connected to pin 6 (PD6)
 #define LCD_TFT_CS      PORTB2      // TFT CS connected to pin 10 (PB2)
 #define LCD_MOSI        PORTB3      // MOSI is fixed to pin 11 (PB3)
 #define LCD_SCK         PORTB5      // SCK is fixed to pin 13 (PB5)
