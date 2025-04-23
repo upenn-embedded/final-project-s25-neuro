@@ -4,12 +4,12 @@
 * @brief       Basic display driver for Adafruit 358 1.8" TFT LCD with ST7735R chip
 *
 * @details     Basic display driver for Adafruit 358 1.8" TFT LCD with ST7735R chip
-*              Modified for Adafruit Feather 328P
+*
 *
 * @copyright
-* @author	   J. Ye (Modified for Feather 328P)
-* @date        April 17, 2025
-* @version	   1.1
+* @author	   J. Ye
+* @date        April 19, 2021
+* @version		1.0
 *****************************************************************************/
 
 #include <avr/io.h>
@@ -17,20 +17,18 @@
 #ifndef ST7735_H_
 #define ST7735_H_
 
-// Pin definitions for Feather 328P
-// SPI pins are fixed on the Feather 328P
-#define LCD_PORT        PORTB
-#define LCD_DDR         DDRB
-#define LCD_DC          PORTB1      // D/C (Data/Command) connected to pin 9 (PB1)
-#define LCD_RST         PORTD6      // Reset connected to pin 6 (PD6)
-#define LCD_TFT_CS      PORTB2      // TFT CS connected to pin 10 (PB2)
-#define LCD_MOSI        PORTB3      // MOSI is fixed to pin 11 (PB3)
-#define LCD_SCK         PORTB5      // SCK is fixed to pin 13 (PB5)
+#define LCD_PORT		PORTB
+#define LCD_DDR			DDRB
+#define LCD_DC			PORTB0
+#define LCD_RST			PORTB1
+#define LCD_TFT_CS		PORTB2
+#define LCD_MOSI		PORTB3
+#define LCD_SCK			PORTB5
 
-// LCD_LITE must be connected to a PWM pin
-#define LCD_LITE_PORT   PORTD
-#define LCD_LITE_DDR    DDRD
-#define LCD_LITE        PORTD3      // Lite connected to pin 3 (PD3) - PWM enabled
+//LCD_LITE must be connected to pin 6 of Arduino Uno for PWM to change brightness (Otherwise, connect to 5V supply)
+#define LCD_LITE_PORT	PORTD
+#define LCD_LITE_DDR	DDRD
+#define LCD_LITE		PORTD6
 
 #define LCD_WIDTH 160
 #define LCD_HEIGHT 128
