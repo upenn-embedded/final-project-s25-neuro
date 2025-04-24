@@ -248,12 +248,12 @@
          graph->firstPoint = 0;
      } else {
          // Draw line from previous point to new point
-         LCD_drawLine(graph->currentX - 1, graph->prevY, graph->currentX, y, graph->color);
+         LCD_drawLine(graph->currentX - 2, graph->prevY, graph->currentX, y, graph->color);
      }
      
      // Store current position for next time
      graph->prevY = y;
-     (graph->currentX)+=1;
+     (graph->currentX)+=2;
      
      // Check if we've reached the right edge
      if (graph->currentX >= GRAPH_X_START + GRAPH_WIDTH) {

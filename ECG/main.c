@@ -22,23 +22,42 @@
 
 #define MPU6050_ADDR 0x68
 
-// MPU6050 register addresses
+// MPU6050 sampling
 #define PWR_MGMT_1 0x6B
 #define ACCEL_XOUT_H 0x3B
 
-// Global graph instance
+#define SAMPLE_COUNT 50  // number of samples in an activity classification
+#define SAMPLE_RATE 50  // in ms
+#define ACCEL_SCALE 64
+
+// high activity detection
+#define ACTIVITY_SAMPLE_INTERVAL_MS (SAMPLE_RATE * SAMPLE_COUNT)  // how often activity is classified
+//#define WINDOW_DURATION_MS 120000        // 2 minutes
+#define WINDOW_DURATION_MS 30000
+#define WINDOW_SIZE (WINDOW_DURATION_MS / ACTIVITY_SAMPLE_INTERVAL_MS)  // = 600
+#define HIGH_ACTIVITY_THRESHOLD (0.2 * WINDOW_SIZE)  // 20% of samples
+
+uint8_t activity_window[WINDOW_SIZE] = {0};  // store 0/1 values
+uint16_t window_index = 0;
+uint16_t high_count = 0;
+
+uint8_t high_activity_flag = 0;
+
+// global graph instance
 Graph myGraph;
 
 void mpu6050_read_accel(int16_t* ax, int16_t* ay, int16_t* az) {
     uint8_t data[6];
     I2C_readCompleteStream(data, MPU6050_ADDR, ACCEL_XOUT_H, 6);
 
-    *ax = (int16_t)(data[0] << 8 | data[1]);
-    *ay = (int16_t)(data[2] << 8 | data[3]);
-    *az = (int16_t)(data[4] << 8 | data[5]);
-}
+    int16_t ax_raw = ((int16_t)data[0] << 8) | data[1];
+    int16_t ay_raw = ((int16_t)data[2] << 8) | data[3];
+    int16_t az_raw = ((int16_t)data[4] << 8) | data[5];
 
-#define SAMPLE_COUNT 50
+    *ax = ax_raw;
+    *ay = ay_raw;
+    *az = az_raw;
+}
 
 float compute_stddev(float* data, int len) {
     float mean = 0;
@@ -57,13 +76,56 @@ float compute_stddev(float* data, int len) {
     return sqrt(variance);
 }
 
+void update_activity_window(uint8_t is_high);
+
 void classify_activity(float stddev) {
-    if (stddev < 500) {
-        printf("Activity Level: LOW\n");
+    uint8_t is_high = 0;
+    if (stddev < 750) {
+        printf("Activity Level: LOW (%f)\n", stddev);
     } else if (stddev < 2000) {
-        printf("Activity Level: MODERATE\n");
+        printf("Activity Level: MODERATE (%f)\n", stddev);
     } else {
-        printf("Activity Level: HIGH\n");
+        printf("Activity Level: HIGH (%f)\n", stddev);
+        is_high = 1;
+    }
+    update_activity_window(is_high);
+}
+
+void measure_activity_intensity() {
+    float accel_mags[SAMPLE_COUNT];
+    
+    for (int i = 0; i < SAMPLE_COUNT; i++) {
+        int16_t ax, ay, az;
+        mpu6050_read_accel(&ax, &ay, &az);
+        
+        float axf = (float) ax;
+        float ayf = (float) ay;
+        float azf = (float) az;
+        
+        accel_mags[i] = sqrt((axf * axf) + (ayf * ayf) + (azf * azf));
+        _delay_ms(SAMPLE_RATE);
+    }
+
+    float stddev = compute_stddev(accel_mags, SAMPLE_COUNT);
+    classify_activity(stddev);
+}
+
+void update_activity_window(uint8_t is_high) {
+    // remove oldest value
+    high_count -= activity_window[window_index];
+
+    // insert new value
+    activity_window[window_index] = is_high;
+    high_count += is_high;
+
+    // increment and wrap index
+    window_index = (window_index + 1) % WINDOW_SIZE;
+
+    if (high_count >= HIGH_ACTIVITY_THRESHOLD) {
+        high_activity_flag = 1;
+        printf("HIGH ACTIVITY DETECTED\n");
+    } else {
+        high_activity_flag = 0;
     }
 }
 
@@ -73,9 +135,10 @@ void Initialize() {
     
     // IMU
     
-    I2C_init();
-    I2C_writeRegister(MPU6050_ADDR, 0x00, PWR_MGMT_1); // Wake up MPU6050
-    _delay_ms(100);
+//    I2C_init();
+//    I2C_writeRegister(MPU6050_ADDR, 0x00, PWR_MGMT_1); // Wake up MPU6050
+//    _delay_ms(100);
+    
     
     // ECG
     // Setup for ADC (10bit = 0-1023)
@@ -125,7 +188,7 @@ void Initialize() {
     Graph_setTitle(&myGraph, "ECG Reading (mV)");
     Graph_drawAxes(&myGraph);
     Graph_enableGrid(&myGraph, 1, BLUE);
-    Graph_setScale(&myGraph, -50, 1023);
+    Graph_setScale(&myGraph, -50, 1000);
     //  Graph_enableAutoScale(&myGraph, 1);
      
     sei();
@@ -136,30 +199,14 @@ void Initialize() {
  */
 int main(int argc, char** argv) {
     Initialize();
-    
-    float accel_mags[SAMPLE_COUNT];
+    printf("Done initializing\n");
     
     while(1) {
-//        printf("ADC reading: %d\n", ADC);
-//        Graph_addDataPoint(&myGraph, ADC);
-//        _delay_ms(10);
+//        measure_activity_intensity();
         
-        for (int i = 0; i < SAMPLE_COUNT; i++) {
-            int ax, ay, az;
-            mpu6050_read_accel(&ax, &ay, &az);
-//            printf("Computing man: %d, %d, %d\n", ax, ay, az);
-            int x2 = ax * ax;
-            printf("x2 = %d\n", x2);
-            int sumsq = (ax * ax) + (ay * ay) + (az * az);
-//            printf("Sum = %d\n", sumsq);
-            accel_mags[i] = sqrt((ax * ax) + (ay * ay) + (az * az));
-//            printf("Adding mag: %f\n", accel_mags[i]);
-            _delay_ms(20); // ~50 Hz
-        }
-
-        float stddev = compute_stddev(accel_mags, SAMPLE_COUNT);
-        printf("Accel StdDev: %.2f\n", stddev);
-        classify_activity(stddev);
+        printf("ADC reading: %d\n", ADC);
+        Graph_addDataPoint(&myGraph, ADC);
+        _delay_ms(5);
     }
     return (EXIT_SUCCESS);
 }
