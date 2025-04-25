@@ -223,11 +223,20 @@ The video demonstrates EEG signal acquisition, real-time LCD display of rolling 
 
 Final demo includes a wearable version strapped on a subject, showing signal spikes and simulated abnormal detection
 
+[https://youtu.be/YMDRHFgg7u8](https://youtu.be/YMDRHFgg7u8)
+
 2. Images
 
 [Insert final project images here]
 
 *Include photos of your device from a few angles. If you have a casework, show both the exterior and interior (where the good EE bits are!).*
+
+![I1.jpeg](I1.jpeg)
+![I2.png](I2.png)
+![I3.jpeg](I3.jpeg)
+![I4.jpeg](I4.jpeg)
+![I5.jpeg](I5.jpeg)
+![I6.jpeg](I6.jpeg)
 
 ### 3. Results
 
