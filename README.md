@@ -6,7 +6,7 @@
 * Team Name: Neuro
 * Team Members: Nick Harty & Sophia Fu
 * GitHub Repository URL: https://github.com/upenn-embedded/final-project-s25-neuro
-* GitHub Pages Website URL: https://neuro.medibound.com
+* GitHub Pages Website URL: https://medibound.com/articles/neuros-unleashed-the-headband-rewiring-the-future-of-mental-health
 
 ## Final Project Proposal
 
