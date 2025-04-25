@@ -133,6 +133,9 @@ void Initialize() {
     
     uart_init();
     
+    DDRD |= (1 << PD2);   // Set PD2 as output
+    PORTD |= (1 << PD2);  // Set PD2 HIGH (outputs ~5V when Vcc is 5V)
+    
     // IMU
     
 //    I2C_init();
@@ -194,6 +197,13 @@ void Initialize() {
     sei();
 }
 
+
+void uart_puts(const char* str) {
+    while (*str) {
+        uart_send(*str++, NULL);  // NULL used because FILE* is not used in this context
+    }
+}
+
 /*
  * 
  */
@@ -207,6 +217,13 @@ int main(int argc, char** argv) {
         printf("ADC reading: %d\n", ADC);
         Graph_addDataPoint(&myGraph, ADC);
         _delay_ms(5);
+        
+        uint16_t adc_value = ADC;
+
+        // Convert ADC value to a string and send it over TX pin
+        char buffer[10];
+        snprintf(buffer, sizeof(buffer), "%d\n", adc_value);
+        uart_puts(buffer);  // Send through hardware TX pin (PD1)
     }
     return (EXIT_SUCCESS);
 }

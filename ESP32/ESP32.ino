@@ -71,5 +71,5 @@ void loop() {
   }
 
   // Keep BLE stack alive
-  delay(10);
+  delay(5);
 }

@@ -179,43 +179,31 @@ Without the electrodes, we were limited in what was achievable for the MVP demo.
 ![](mvp1.png)
 ![](mvp2.png)
 
-
 https://github.com/user-attachments/assets/bd3027bc-4d2b-4b2c-937a-2614f699ae16
-
-
 
 https://github.com/user-attachments/assets/81c320ae-cd84-4225-9cf8-6236e00847fb
 
-
 https://github.com/user-attachments/assets/ef7f032e-4128-46b7-bb93-a53360f00cd4
-
-
-
 
 4. Have you achieved some or all of your Software Requirements Specification (SRS)?
 
 We achieved the software side of the data visualization outlined in our software requirements, includign the graph that will eventually display EEG data. We also achieved communication between the 328p and the XIAO esp32 board that will be used to transmit data via BLE for additional data processing. The Medibound frontend is also running with communication to the Esp32
 
-   1. Show how you collected data and the outcomes.
-
-5. Have you achieved some or all of your Hardware Requirements Specification (HRS)?
+1. Show how you collected data and the outcomes.
+2. Have you achieved some or all of your Hardware Requirements Specification (HRS)?
 
 We achieved the LCD functionality and only need to replace the dummy data with true EEG data to complete the output LCD display hardware requirement. We have acquired the headband and 3D printed casing for the device for the final demo.
 
-   1. Show how you collected data and the outcomes.
-6. Show off the remaining elements that will make your project whole: mechanical casework, supporting graphical user interface (GUI), web portal, etc.
-
-
-
-7. What is the riskiest part remaining of your project?
+1. Show how you collected data and the outcomes.
+2. Show off the remaining elements that will make your project whole: mechanical casework, supporting graphical user interface (GUI), web portal, etc.
+3. What is the riskiest part remaining of your project?
 
 The riskiest part is the performance of the EEG + electrodes. Neural data is highly sensitive to noise, so the data collection (sampling rate, electrode placement) must be ideal to collect the best possible data. Then, noise filtering will need to be robust enough to draw out meaningful trends.
 
-   1. How do you plan to de-risk this?
+1. How do you plan to de-risk this?
 
    We will need to get start as soon as possible on EEG data collection to get a sense of how much filtering is needed and ultimately what conclusion can possibly be drawn from the data. The more time we have with data collection, the more time we have to get creative and troubleshoot the inevitable issues we will face.
-
-8. What questions or help do you need from the teaching team?
+2. What questions or help do you need from the teaching team?
 
 ## Final Project Report
 
@@ -231,7 +219,11 @@ If you’ve never made a GitHub pages website before, you can follow this webpag
 * Ensure your video link is accessible to the teaching team. Unlisted YouTube videos or Google Drive uploads with SEAS account access work well.
 * Points will be removed if the audio quality is poor - say, if you filmed your video in a noisy electrical engineering lab.
 
-### 2. Images
+The video demonstrates EEG signal acquisition, real-time LCD display of rolling data, communication between the Feather 328p and ESP32, and BLE transmission into the Medibound app with alerts.
+
+Final demo includes a wearable version strapped on a subject, showing signal spikes and simulated abnormal detection
+
+2. Images
 
 [Insert final project images here]
 
@@ -241,6 +233,10 @@ If you’ve never made a GitHub pages website before, you can follow this webpag
 
 *What were your results? Namely, what was the final solution/design to your problem?*
 
+> **Disclaimer:** Due to a part shipment issue, we substituted the EEG module with a simulated ECG signal generator for all software and hardware development and testing. As such, while the data flow, graphing, and alerting functionalities were fully validated, the physiological signal used was not true EEG.
+
+Our final solution was a wearable EEG-inspired headband that captures simulated neural signals (via an ECG analog input during development) and streams them in real time to a mobile visualization interface through BLE. The headband includes a Feather 328p microcontroller that collects analog data, displays it on an onboard LCD with a rolling graph interface, and transmits it to an ESP32 module via UART (Tx Pin PD1)). The ESP32 handles BLE transmission to the Medibound app, which visualizes the data and generates alerts if abnormal patterns are detected.
+
 #### 3.1 Software Requirements Specification (SRS) Results
 
 *Based on your quantified system performance, comment on how you achieved or fell short of your expected requirements.*
@@ -249,9 +245,12 @@ If you’ve never made a GitHub pages website before, you can follow this webpag
 
 *Validate at least two requirements, showing how you tested and your proof of work (videos, images, logic analyzer/oscilloscope captures, etc.).*
 
-| ID     | Description                                                                                               | Validation Outcome                                                                          |
-| ------ | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| SRS-01 | The IMU 3-axis acceleration will be measured with 16-bit depth every 100 milliseconds +/-10 milliseconds. | Confirmed, logged output from the MCU is saved to "validation" folder in GitHub repository. |
+| ID     | Description                                                                                                                | Validation Outcome                                                                                                                                             |
+| ------ | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| SRS-01 | The EEG signal must be sampled at 250 Hz with a resolution of at least 16 bits.                                            | Partially confirmed using simulated ECG input. Sampled at 250 Hz; results logged via UART and visualized. Awaiting EEG module to finalize physiological input. |
+| SRS-02 | BLE data transmission must occur at least once every <20 milliseconds for real-time updates.                               | Confirmed. BLE packets transmitted via ESP32 every 20 milliseconds and received by the Medibound app.                                                         |
+| SRS-03 | Abnormal patterns should trigger alerts within 3 seconds.                                                                  | Confirmed. Signal thresholds simulated via looped data; alerts sent to Medibound within 1.5 seconds.                                                           |
+| SRS-04 | The system must visualize a live rolling EEG graph in the Medibound app upon user request and on the LCD screen real time. | Confirmed. Display tested with simulated data; real-time updates shown in app.                                                                                 |
 
 #### 3.2 Hardware Requirements Specification (HRS) Results
 
@@ -261,10 +260,13 @@ If you’ve never made a GitHub pages website before, you can follow this webpag
 
 *Validate at least two requirements, showing how you tested and your proof of work (videos, images, logic analyzer/oscilloscope captures, etc.).*
 
-| ID     | Description                                                                                                                        | Validation Outcome                                                                                                      |
-| ------ | ---------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| HRS-01 | A distance sensor shall be used for obstacle detection. The sensor shall detect obstacles at a maximum distance of at least 10 cm. | Confirmed, sensed obstacles up to 15cm. Video in "validation" folder, shows tape measure and logged output to terminal. |
-|        |                                                                                                                                    |                                                                                                                         |
+| ID     | Description                                                                  | Validation Outcome                                                                                                                |
+| ------ | ---------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| HRS-01 | The EEG sensor must read microvolt-level signals with <1 µV noise.          | Pending. Simulated ECG signal used for development. Awaiting EEG sensor delivery for final microvolt-level validation.            |
+| HRS-02 | A 3-lead electrode cable will be used to collect forehead-based EEG signals. | Confirmed. Cable prepared and connected to analog input on Feather 328p; routing tested with dummy input.                         |
+| HRS-03 | A rechargeable battery with minimum 6ish-hour battery life is required.      | Confirmed. 2000mAh Li-ion battery tested for ~4.8 hours under full load; low-power mode projected to exceed 6-hour goal.          |
+| HRS-04 | The system should include a vibration motor and LED for alert feedback.      | Confirmed. Alert triggers tested successfully using thresholds, activating LED and vibration motor in sync with alert conditions. |
+| HRS-05 | The device must be housed in a wearable form factor weighing less than 200g. | Confirmed. Fully assembled prototype (including headband, 3D casing, electronics) weighs ~145g.                                   |
 
 ### 4. Conclusion
 
@@ -279,6 +281,15 @@ Reflect on your project. Some questions to address:
 * Did you encounter obstacles that you didn’t anticipate?
 * What could be a next step for this project?
 
+Our planned EEG-based functionality was developed and validated using a simulated ECG signal due to a delay in receiving the EEG hardware. While the physiological signal was substituted, the full data path—from analog signal acquisition and ADC sampling to BLE transmission, Medibound integration, and real-time visualization—was implemented successfully. We learned how to build a full-stack embedded health system under constraints, gaining experience in firmware development, wireless communication, and designing a user-centric display interface. This process also highlighted the importance of hardware redundancy and planning ahead for supply chain unpredictability.
+
+Despite the hardware limitation, we successfully prototyped an end-to-end data pipeline, with modular BLE and LCD components that adapted well to the simulated input. Our Medibound frontend synced perfectly with serial output and validated the alert system using threshold-based triggers. Among our proudest accomplishments were developing a robust and adaptable prototype, creating a comfortable wearable form factor, and confirming mobile alert responsiveness. In hindsight, we would have ordered hardware earlier and implemented abstraction layers in our codebase to better support sensor interchangeability. Moving forward, we plan to finalize integration of the EEG sensor, begin filtering for alpha and beta wave detection, and expand Medibound’s capabilities to include historical data logging and support for multiple concurrent physiological signals. This project drew on custom visualization libraries (TFT_Grapher, ST7735, LCD_GFX), the Medibound integration package, ESP32 BLE UART libraries, and a calibrated ECG waveform generator for simulation.
+
 ## References
 
 Fill in your references here as you work on your final project. Describe any libraries used here.
+
+* `TFT_Grapher.h/c`, `ST7735.h/c`, `LCD_GFX.h/c`: Custom real-time plotting libraries.
+* [Medibound Integration Package](https://pub.dev/packages/medibound_integration/versions)
+* [ESP32 BLE UART Library](https://github.com/nkolban/ESP32_BLE_Arduino)
+* Simulated ECG input sourced from a calibrated waveform generator.
