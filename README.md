@@ -1,12 +1,8 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/WXeqVgks)
-
-# final-project-skeleton
-
-* Team Number: neuro (needs fixing)
-* Team Name: Neuro
+* Team Number: 10
+* Team Name: Neuros
 * Team Members: Nick Harty & Sophia Fu
 * GitHub Repository URL: https://github.com/upenn-embedded/final-project-s25-neuro
-* GitHub Pages Website URL: https://medibound.com/articles/neuros-unleashed-the-headband-rewiring-the-future-of-mental-health
+* GitHub Pages Website URL: https://medibound.com/stories/neuros-unleashed-the-headband-rewiring-the-future-of-mental-health
 
 ## Final Project Proposal
 
